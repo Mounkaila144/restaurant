@@ -1,0 +1,116 @@
+erDiagram
+    user ||--o{ commandes : passe
+    user ||--o{ reservations : fait
+    user ||--o{ avis : ecrit
+    user ||--o{ alertes : recoit
+
+    categories ||--|{ plats : contient
+
+    plats ||--|{ options : possede
+    plats ||--o{ cmd_details : "commande en"
+
+    commandes ||--|{ cmd_details : contient
+    cmd_details ||--|{ detail_options : a
+    options ||--o{ detail_options : "utilise"
+
+    user {
+        int id PK
+        string email
+        string password
+        string nom
+        string prenom
+        string phone
+        text adresse
+        int points
+        date creation
+        enum role
+    }
+
+    categories {
+        int id PK
+        string nom
+        text desc
+        string photo
+    }
+
+    plats {
+        int id PK
+        int categorie_id FK
+        string nom
+        text desc
+        decimal prix
+        string photo
+        bool dispo
+    }
+
+    options {
+        int id PK
+        int plat_id FK
+        string nom
+        decimal prix
+    }
+
+    commandes {
+        int id PK
+        int user_id FK
+        enum statut
+        enum type
+        decimal total
+        enum paiement
+        datetime creation
+        text adresse
+        text notes
+    }
+
+    cmd_details {
+        int id PK
+        int cmd_id FK
+        int plat_id FK
+        int qte
+        decimal prix
+        text notes
+    }
+
+    detail_options {
+        int id PK
+        int cmd_detail_id FK
+        int option_id FK
+    }
+
+    reservations {
+        int id PK
+        int user_id FK
+        date date
+        time heure
+        int personnes
+        enum statut
+        text notes
+    }
+
+    medias {
+        int id PK
+        enum type
+        string url
+        string titre
+        text desc
+    }
+
+    avis {
+        int id PK
+        int user_id FK
+        int note
+        text comment
+        bool valide
+        date creation
+    }
+
+    alertes {
+        int id PK
+        int user_id FK
+        enum type
+        text message
+        bool vue
+        datetime creation
+    }
+
+
